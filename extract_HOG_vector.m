@@ -13,5 +13,5 @@ array_img;
 size(array_img)
 array_img(1,:)
 
- vector =  transpose(nonzeros((array_img(1,:))')) % can be used to extract the vector without zeros
+vector =  transpose(nonzeros((array_img(1,:))')); % can be used to extract the vector without zeros
 
