@@ -1,3 +1,4 @@
+%% EXTRACT HOG FEATURE VECTORS OF POSITIVE IMAGES
 clc
 array_img = zeros(length(img), 25000);
 for i = 1:length(img)
@@ -12,5 +13,5 @@ array_img;
 size(array_img)
 array_img(1,:)
 
-vector =  transpose(nonzeros((array_img(1,:))')) % extract vector without zeros0
+ vector =  transpose(nonzeros((array_img(1,:))')) % can be used to extract the vector without zeros
 

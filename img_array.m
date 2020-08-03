@@ -1,3 +1,4 @@
+%% INSERT THE POSITIVE IMAGES TO AN ARRAY
 clc
 folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\positive';  
 trainingSet = dir(fullfile(folder,'*.jpg'));
