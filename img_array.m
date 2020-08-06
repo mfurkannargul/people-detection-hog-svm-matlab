@@ -9,5 +9,3 @@ for k = 1:numel(trainingSet)
 end
 length(img)
 size(img)
-
-
