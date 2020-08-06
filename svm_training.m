@@ -5,6 +5,6 @@ Y = gTruth.LabelData
 size(X)
 size(Y)
 
-Mdl = fitcsvm(X, Y)
+Mdl = fitcsvm(X, Y);
 % classOrder = SVMModel.ClassNames;
 % sv = SVMModel.SupportVectors;
