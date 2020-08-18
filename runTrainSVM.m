@@ -1,8 +1,6 @@
 %% TRAIN SVM
 clc
-%run('resizeImages.m')
-%run('extractHogVector.m')
-% load('gTruth.mat')
+run('extractHOGFeatureVectors.m')
 X = array_img;
 Y = imds.Labels;
 size(X)
