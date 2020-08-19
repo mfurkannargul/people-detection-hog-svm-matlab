@@ -1,6 +1,6 @@
 %% TRAIN SVM
 clc
-run('extractHOGFeatureVectors.m')
+%run('extractHOGFeatureVectors.m')
 X = array_img;
 Y = imds.Labels;
 size(X)
