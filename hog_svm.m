@@ -1,12 +1,12 @@
 %% LOAD TRAINING IMAGES
 clc, clear
-folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab';
+folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\training_images';
 imdsTrain = imageDatastore(folder, ...
     'IncludeSubfolders',true, ...
     'LabelSource','foldernames');
 numberImages = numel(imdsTrain.Files)
 
-%% RESIZE IMAGES & EXTRACT A SAMPLE HOG FEATURE VECTOR
+%% EXTRACT A SAMPLE HOG FEATURE VECTOR
 k = 11161;
 img_unresized = readimage(imdsTrain,k);
 img = imresize(img_unresized,[128 64]);
