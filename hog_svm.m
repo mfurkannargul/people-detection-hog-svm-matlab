@@ -1,10 +1,10 @@
 %% LOAD TRAINING IMAGES
 clc, clear
-folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\training_images';
+folder = 'C:\Users\furka\Documents\GitHub\human-detection-hog-svm-classifier-matlab\training_images';
 imdsTrain = imageDatastore(folder, ...
     'IncludeSubfolders',true, ...
     'LabelSource','foldernames');
-numberImages = numel(imdsTrain.Files);
+numberImages = numel(imdsTrain.Files)
 
 %% RESIZE IMAGES & EXTRACT A SAMPLE HOG FEATURE VECTOR
 k = 11160;
@@ -38,8 +38,8 @@ trainingLabels = imdsTrain.Labels;
 size(trainingLabels)
 
 %% TRAIN SVM CLASSIFIER
-SVMModel = fitcecoc(arrayTrainingFeatures, trainingLabels);
-
+SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels);
+SVMModel
 %% TEST ON TRAINING IMAGES
 for i = 10580:12170
     img1 = readimage(imdsTrain,i);
@@ -49,10 +49,3 @@ for i = 10580:12170
     imshow(img1);
     title(strcat('Prediction:', string(pred)))
 end
-k = 12020;
-img1 = readimage(imdsTrain,k);
-hog1 = extractHOGFeatures(img,'CellSize',[2 2]);
-[pred, scores] = predict(SVMModel,hog1);
-figure(3);
-imshow(img1);
-title(strcat('Prediction:', string(pred)))
