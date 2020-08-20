@@ -1,3 +1,0 @@
-clc
-load SVMModel
-imdsTest = image
