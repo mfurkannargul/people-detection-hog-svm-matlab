@@ -7,7 +7,7 @@ imdsTrain = imageDatastore(folder, ...
 numberImages = numel(imdsTrain.Files)
 
 %% RESIZE IMAGES & EXTRACT A SAMPLE HOG FEATURE VECTOR
-k = 11160;
+k = 11161;
 img_unresized = readimage(imdsTrain,k);
 img = imresize(img_unresized,[128 64]);
 imshow(img);
@@ -26,9 +26,9 @@ hogFeatureSize = length(featureVector)
 arrayTrainingFeatures = zeros(numberImages,hogFeatureSize,'single');
 for k = 1:numberImages
     img_unresized = readimage(imdsTrain,k);
-    image = imresize(img_unresized,[128 64]);
+    img = imresize(img_unresized,[128 64]);
     size(image)
-    [featureVector,hogVisualization] = extractHOGFeatures(image,'CellSize', cellSize);
+    [featureVector,hogVisualization] = extractHOGFeatures(img,'CellSize', cellSize);
     size(featureVector)
     for j = 1:length(hogFeatureSize)
         arrayTrainingFeatures(k,j) = featureVector(1,j);
@@ -38,14 +38,19 @@ trainingLabels = imdsTrain.Labels;
 size(trainingLabels)
 
 %% TRAIN SVM CLASSIFIER
-SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels);
-SVMModel
+SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels)
+
 %% TEST ON TRAINING IMAGES
 for i = 10580:12170
-    img1 = readimage(imdsTrain,i);
-    hog1 = extractHOGFeatures(img,'CellSize',[2 2]);
-    [pred, scores] = predict(SVMModel,hog1);
-    figure(3);
-    imshow(img1);
-    title(strcat('Prediction:', string(pred)))
+    imgage_unresized = readimage(imdsTrain,i);
+    image = imresize(imgage_unresized,[128 64]);
+    [featureVector,hogVisualization] = extractHOGFeatures(image,'CellSize',cellSize);
+    [prediction, scores] = predict(SVMModel,featureVector);
+    figure(2);
+    imshow(image);
+    title(strcat('Prediction:', string(prediction)))
 end
+
+%% SAVE THE TRAINED CLASSIFIER FOR FURTHER USE
+%save SVMModel
+save('SVMModel', '-v7.3')
