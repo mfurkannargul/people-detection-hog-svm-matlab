@@ -1,15 +1,16 @@
 %% LOAD TRAINING IMAGES
 clc, clear
-folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\training_images';
+folder = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\trainImages';
 imdsTrain = imageDatastore(folder, ...
     'IncludeSubfolders',true, ...
     'LabelSource','foldernames');
 numberImages = numel(imdsTrain.Files)
 
 %% EXTRACT A SAMPLE HOG FEATURE VECTOR
-k = 11161;
+k = 1801;
 img_unresized = readimage(imdsTrain,k);
 img = imresize(img_unresized,[128 64]);
+%img = img_unresized;
 imshow(img);
 [featureVector,hogVisualization] = extractHOGFeatures(img,'CellSize',[2 2]);
 figure(1);
@@ -27,7 +28,7 @@ arrayTrainingFeatures = zeros(numberImages,hogFeatureSize,'single');
 for k = 1:numberImages
     img_unresized = readimage(imdsTrain,k);
     img = imresize(img_unresized,[128 64]);
-    size(image)
+    size(img)
     [featureVector,hogVisualization] = extractHOGFeatures(img,'CellSize', cellSize);
     size(featureVector)
     for j = 1:length(hogFeatureSize)
@@ -41,11 +42,11 @@ size(trainingLabels)
 SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels)
 
 %% TEST ON TRAINING IMAGES
-for i = 10580:12170
+for i = 9200:9240
     imgage_unresized = readimage(imdsTrain,i);
     image = imresize(imgage_unresized,[128 64]);
     [featureVector,hogVisualization] = extractHOGFeatures(image,'CellSize',cellSize);
-    [prediction, scores] = predict(SVMModel,featureVector);
+    [prediction, scores] = predict(SVMModel,featureVector)
     figure(2);
     imshow(image);
     title(strcat('Prediction:', string(prediction)))
@@ -53,4 +54,4 @@ end
 
 %% SAVE THE TRAINED CLASSIFIER FOR FURTHER USE
 %save SVMModel
-save('SVMModel', '-v7.3')
+save('SVMModel_1', '-v7.3')
