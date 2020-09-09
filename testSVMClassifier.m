@@ -3,7 +3,7 @@ clc
 load SVMModel
 
 %% LOAD TEST IMAGES
-folderTest = 'C:\Users\furka\Documents\GitHub\people-detection-hog-svm-matlab\testImages';
+folderTest = 'testImages';
 imdsTest = imageDatastore(folderTest, ...
     'IncludeSubfolders',true, ...
     'LabelSource','foldernames');
@@ -14,10 +14,13 @@ imageTest = readimage(imdsTest, t);
 figure(3);
 imshow(imageTest);
 title('A Sample Test Image');
+imdsTest.Labels(1)
 
 %% MAKE PREDICTION BY USING SVM CLASSIFIER
 numberTestImages = numel(imdsTest.Files)
-for i = 1:numberTestImages
+start = 1;
+correctPrediction = 0;
+for i = start:numberTestImages
     imageTestUnresized = readimage(imdsTest,i);
     imageTest = imresize(imageTestUnresized,[128 64]);
     [featureVector,hogVisualization] = extractHOGFeatures(imageTest,'CellSize',cellSize);
@@ -25,14 +28,19 @@ for i = 1:numberTestImages
     figure(4);
     imshow(imageTest);
     title(strcat('Prediction:', string(prediction)))
+    if (string(prediction) == string(imdsTest.Labels(start + i - 1)))
+        correctPrediction = correctPrediction + 1;
+    end
+    accuracyTest = correctPrediction / (i - start + 1) * 100
 end
+finalAccuracyTest = correctPrediction / (numberTestImages - start + 1) * 100
 
 %% INITIALIZE VARIABLES FOR SLIDING DETECTION WINDOW
 stepSize = 5;
 width = 100;
 height = 40;
 [y x] = size(imageTest)
-location = zeros(y,x);
+position = zeros(y,x);
 y = floor((y-height)/stepSize)+1;
 x = floor((x-width)/stepSize)+1;
 
@@ -47,7 +55,7 @@ for i = 1:y
         [prediction,scores] = predict(SVMModel,featureVector);
         if (string(prediction) == 'positive')
             pause(1);
-            location(x1,y1) = -scores(2);
+            position(x1,y1) = -scores(2);
         end
         y1 = y1 + stepSize
     end
@@ -58,7 +66,7 @@ end
 %% DISPLAY DETECTION IN BOUNDING BOX
 [y1 x1] = find(position > 0.75);
 figure(6);
-imshow(testImage)
+imshow(imageTest)
 for i = 1:length(y1)
     pause(1);
     imrect(gca, [x1(i),y1(i),100,40])
