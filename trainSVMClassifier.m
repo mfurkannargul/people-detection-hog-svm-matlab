@@ -46,6 +46,7 @@ size(trainingLabels)
 %% TRAIN SVM CLASSIFIER
 SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels)
 
+
 %% TEST ON TRAINING IMAGES
 start = 1;
 correctPrediction = 0;
@@ -71,4 +72,4 @@ finalAccuracy = correctPrediction / (numberImages - start + 1) * 100
 
 %% SAVE THE TRAINED CLASSIFIER FOR FURTHER USE
 %save SVMModel
-save('SVMModel', '-v7.3') % 68 pos, 80 neg, 65%
+save('SVMModel', '-v7.3') % 68 pos, 80 neg, 72%
