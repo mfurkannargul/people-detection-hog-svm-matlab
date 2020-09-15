@@ -7,7 +7,7 @@ imdsTrain = imageDatastore(folder, ...
 numberImages = numel(imdsTrain.Files)
 
 %% EXTRACT A SAMPLE HOG FEATURE VECTOR
-k = 200;
+k = 80;
 img_unresized = readimage(imdsTrain,k);
 img_resized = imresize(img_unresized,[128 64]);
 img = rgb2gray(img_resized);
@@ -71,4 +71,4 @@ finalAccuracy = correctPrediction / (numberImages - start + 1) * 100
 
 %% SAVE THE TRAINED CLASSIFIER FOR FURTHER USE
 %save SVMModel
-save('SVMModel', '-v7.3') % 134 pos, 158 neg, 65%
+save('SVMModel', '-v7.3') % 68 pos, 80 neg, 65%
