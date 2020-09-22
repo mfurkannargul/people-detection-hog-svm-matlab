@@ -9,7 +9,7 @@ imdsTest = imageDatastore(folderTest, ...
     'LabelSource','foldernames');
 
 %% DISPLAY A SAMPLE TEST IMAGE
-t = 1;
+t = 142;
 imageTest = readimage(imdsTest, t);
 figure(3);
 imshow(imageTest);

@@ -1,3 +1,4 @@
+function finalAccuracy = trainSVMClassifier(folder) 
 %% LOAD TRAINING IMAGES
 clc, clear
 folder = 'trainImages';
@@ -45,7 +46,6 @@ size(trainingLabels)
 
 %% TRAIN SVM CLASSIFIER
 SVMModel = fitcsvm(arrayTrainingFeatures, trainingLabels)
-
 
 %% TEST ON TRAINING IMAGES
 start = 1;
