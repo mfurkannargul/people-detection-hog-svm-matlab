@@ -12,8 +12,6 @@ k = 80;
 img_unresized = readimage(imdsTrain,k);
 img_resized = imresize(img_unresized,[128 64]);
 img = rgb2gray(img_resized);
-%img = edge(img_gray);
-%img = img_unresized;
 imshow(img);
 [featureVector,hogVisualization] = extractHOGFeatures(img,'CellSize',[2 2]);
 figure(1);
@@ -22,18 +20,14 @@ hold on;
 plot(hogVisualization)
 title('hogVisualization')
 
-%% DETERMINE CELL SIZE AND FEATURE SIZE
+%% EXTRACT HOG FEATURE VECTORS OF TRAIN SET
 cellSize = [2 2]
 hogFeatureSize = length(featureVector)
-
-%% EXTRACT HOG FEATURE VECTORS OF TRAIN SET
 arrayTrainingFeatures = zeros(numberImages,hogFeatureSize,'single');
 for k = 1:numberImages
     img_unresized = readimage(imdsTrain,k);
     img_resized = imresize(img_unresized,[128 64]);
     img = rgb2gray(img_resized);
-    %img = edge(img_gray);
-    %img = img_unresized;
     size(img)
     [featureVector,hogVisualization] = extractHOGFeatures(img,'CellSize', cellSize);
     size(featureVector)
@@ -54,13 +48,11 @@ for i = start:numberImages
     image_unresized = readimage(imdsTrain,i);
     image_resized = imresize(image_unresized,[128 64]);
     image = rgb2gray(image_resized);
-    %image = edge(img_gray);
-    %image = imgage_unresized;
     [featureVector,hogVisualization] = extractHOGFeatures(image,'CellSize',cellSize);
     [prediction, scores] = predict(SVMModel,featureVector)
     figure(2);
     imshow(image_resized);
-    title(strcat('Prediction:', string(prediction), '     Label:', string(trainingLabels(i))))
+    title(strcat('Prediction: ', string(prediction), '     Label: ', string(trainingLabels(i))))
     if (string(prediction) == string(trainingLabels(i)))
         correctPrediction = correctPrediction + 1;
     end
@@ -70,6 +62,5 @@ end
 %% PREDICTION ACCURACY
 finalAccuracy = correctPrediction / (numberImages - start + 1) * 100
 
-%% SAVE THE TRAINED CLASSIFIER FOR FURTHER USE
-%save SVMModel
-save('SVMModel', '-v7.3') % 68 pos, 80 neg, 72%
+%% SAVE THE TRAINED CLASSIFIER FOR FURTHER USES
+save('SVMModel', '-v7.3') % 68 pos train img, 80 neg train img, 72% test accuracy
