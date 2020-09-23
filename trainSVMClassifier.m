@@ -1,4 +1,3 @@
-function finalAccuracy = trainSVMClassifier(folder) 
 %% LOAD TRAINING IMAGES
 clc, clear
 folder = 'trainImages';
